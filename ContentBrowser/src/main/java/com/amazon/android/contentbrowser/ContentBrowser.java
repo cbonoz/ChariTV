@@ -1978,14 +1978,13 @@ public class ContentBrowser implements IContentBrowser, ICancellableLoad {
     }
 
     private void openDonateDialog(Activity activity) {
-        final ImageView image = new ImageView(mNavigator.getActiveActivity());
+        final ImageView image = new ImageView(activity);
         image.setImageResource(R.drawable.qr_example);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+        new AlertDialog.Builder(activity)
                 .setMessage("You donated $5!")
                 .setView(image)
-                .setPositiveButton("Ok", (dialogInterface, i) -> dialogInterface.dismiss());
-
-        builder.create().show();
+                .setPositiveButton("Ok", (dialogInterface, i) -> dialogInterface.dismiss())
+                .show();
     }
 
     /**
