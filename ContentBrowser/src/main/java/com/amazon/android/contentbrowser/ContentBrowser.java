@@ -1985,7 +1985,6 @@ public class ContentBrowser implements IContentBrowser, ICancellableLoad {
                 new AlertDialog.Builder(activity)
                         .setView(image)
                         .setMessage("Donate $5 to " + content.getTitle() + "?")
-                        .setNegativeButton("Cancel",(dialog, which) -> dialog.dismiss())
                         .setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
