@@ -51,11 +51,12 @@ import com.amazon.utils.StringManipulation;
 import org.greenrobot.eventbus.EventBus;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.SparseArrayObjectAdapter;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -1959,7 +1960,7 @@ public class ContentBrowser implements IContentBrowser, ICancellableLoad {
                 handleRendererScreenSwitch(activity, content, actionId, true);
                 break;
             case CONTENT_ACTION_DONATE_FIVE:
-                openDonateDialog(activity);
+                openDonateDialog(activity, content);
                 break;
             case CONTENT_ACTION_SUBSCRIPTION:
             case CONTENT_ACTION_DAILY_PASS:
@@ -1977,14 +1978,24 @@ public class ContentBrowser implements IContentBrowser, ICancellableLoad {
         }
     }
 
-    private void openDonateDialog(Activity activity) {
+    private void openDonateDialog(Activity activity, Content content) {
         final ImageView image = new ImageView(activity);
-        image.setImageResource(R.drawable.qr_example);
-        new AlertDialog.Builder(activity)
-                .setMessage("You donated $5!")
-                .setView(image)
-                .setPositiveButton("Ok", (dialogInterface, i) -> dialogInterface.dismiss())
-                .show();
+        image.setImageResource(getImageForContent(content));
+        android.app.AlertDialog.Builder builder =
+                new AlertDialog.Builder(activity)
+                        .setView(image)
+                        .setMessage("Donate $5 to " + content.getTitle() + "?")
+                        .setNegativeButton("Cancel",(dialog, which) -> dialog.dismiss())
+                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    private int getImageForContent(Content content) {
+        switch (content.getId()) {
+            // TODO: switch
+            default:
+                return R.drawable.qr_example;
+        }
     }
 
     /**
